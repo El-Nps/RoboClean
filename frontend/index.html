@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="description"
+        content="roboclean - Smart vacuum robot control interface"
+    >
+
+    <title>roboclean</title>
+
+    <link rel="stylesheet" href="/assets/styles/base.css" />
+    <script type="module" src="/src/main.js"></script>
+</head>
+<body class="loading">
+
+    <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+    <defs>
+        <clipPath id="textPath" clipPathUnits="objectBoundingBox">
+            <text x="0" y="0.7" 
+                  font-family="sans-serif" 
+                  font-size="0.8" 
+                  font-weight="700" 
+                  transform="scale(0.25, 1)">roboclean</text>
+        </clipPath>
+    </defs>
+</svg>
+
+    <map-canvas></map-canvas>
+
+    <main>
+        <header>
+            <div>
+                <div id="title"></div>
+                <span id="status">Awaiting connection</span>
+
+                <div id="manual-toggles" style="display: none;">
+                    <span>vacuum</span><button id="toggle-vacuum">OFF</button>
+                    <span>brush</span><button id="toggle-brush">OFF</button>
+                </div>
+            </div>
+
+            <div id="stats">
+                <span><span id="stat-cpu">XX</span>% CPU</span>
+                <span><span id="stat-ram">XX</span>% RAM</span>
+                <span><span id="stat-dsk">XX</span>% DSK</span>
+                <span><span id="stat-cov">--</span>% COV (last room)</span>
+            </div>
+        </header>
+
+        <div id="menu">
+            <div id="tools">
+                <button id="tool-waypoint">
+                    <img src="assets/icons/flag.svg"/>
+                </button>
+                <button id="tool-area" class="tool-text" title="Split polygon into rooms">
+                    Split
+                </button>
+                <button id="tool-outline" class="tool-text" title="Auto-detect map outline">
+                    Outline
+                </button>
+                <button id="tool-pen" class="tool-text" title="Draw keepout zones">
+                    Pen
+                </button>
+                <button id="tool-eraser" class="tool-text" title="Erase keepout zones">
+                    Eraser
+                </button>
+                <button id="tool-manual">
+                    <img src="assets/icons/move.svg"/>
+                </button>
+            </div>
+
+            <div id="modes">
+                <input
+                    type="radio"
+                    id="mode-idle" name="mode" value="idle"
+                    checked hidden
+                >
+                <label for="mode-idle">
+                    <img src="assets/icons/idle.svg"/> Idle
+                </label>
+
+                <input
+                    type="radio"
+                    id="mode-explore" name="mode" value="explore"
+                    hidden
+                >
+                <label for="mode-explore">
+                    <img src="assets/icons/explore.svg"/> Explore
+                </label>
+
+                <input type="radio"
+                    id="mode-clean" name="mode" value="clean"
+                    hidden
+                >
+                <label for="mode-clean">
+                    <img src="assets/icons/clean.svg"/> Clean
+                </label>
+            </div>
+        </div>
+
+        <button id="center-view">
+            <img src="assets/icons/center_view.svg"/>
+            Focus robot
+        </button>
+
+        <button id="save-map">
+            Save map
+        </button>
+
+        <button id="exit">
+            <img src="assets/icons/back.svg"/>
+            Back
+        </button>
+
+        <virtual-joystick id="manual-joystick"></virtual-joystick>
+    </main>
+
+</body>
+</html>

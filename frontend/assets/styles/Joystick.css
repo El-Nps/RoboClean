@@ -1,0 +1,31 @@
+:host {
+    position: relative;
+    display: block;
+    width: 8rem;
+    height: 8rem;
+    touch-action: none;
+    background: oklch(95% 0 0);
+    border: solid .1rem oklch(90% 0 0);
+    border-radius: 50%;
+}
+
+.knob {
+    position: absolute;
+    width: 3.5rem;
+    height: 3.5rem;
+    top: 50%;
+    left: 50%;
+    cursor: grab;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out;
+    background: oklch(0% 0 0);
+    border-radius: 50%;
+}
+
+.knob:active {
+    cursor: grabbing;
+}
+
+.knob.active {
+    transition: none;
+}

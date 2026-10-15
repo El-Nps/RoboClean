@@ -1,0 +1,249 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+:root {
+    --c-primary: oklch(0 0 0);
+    --c-secondary: oklch(20% 0.02 270 / .5);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    transition: background-color 0.5s ease;
+}
+
+body.loading {
+    background-color: oklch(98% 0 0);
+}
+
+button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 3rem;
+    cursor: pointer;
+}
+
+button img {
+    width: 1rem;
+    height: 1rem;
+}
+
+header {
+    display: flex;
+    position: absolute;
+    justify-content: space-between;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 2rem;
+    z-index: 10;
+    transition:
+        top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.loading header {
+    top: calc(50% - 6rem);
+    left: 2rem;
+}
+
+body.loading #title {
+    background: oklch(0 0 0 / 1);
+
+    width: 24rem;
+    height: 6rem;
+}
+
+body.loading #stats,
+body.loading #menu,
+body.loading #center-view,
+body.loading #save-map,
+body.loading map-canvas {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#menu, #stats, #center-view, map-canvas {
+    transition: opacity 0.5s ease;
+}
+
+#menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    align-items: center;
+
+    padding: 1.5rem;
+    z-index: 10;
+    gap: 1rem;
+}
+
+#modes {
+    display: flex;
+    width: fit-content;
+    height: 3.25rem;
+    border-radius: 3rem;
+    pointer-events: all;
+}
+
+#modes label {
+    display: flex;
+
+    height: 3.25rem;
+    padding-right: 1.5rem;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    cursor: pointer;
+    opacity: 0.4;
+}
+
+#modes label:first-of-type {
+    padding-left: 1rem;
+}
+
+#modes label:last-of-type {
+    padding-right: 2rem;
+}
+
+#modes label img {
+    width: 1rem;
+    height: 1rem;
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition: all 300ms cubic-bezier(0.4, 1.8, 0.8, 1);
+}
+
+#modes input[type="radio"]:checked + label {
+    opacity: 1;
+}
+
+#modes input[type="radio"]:checked + label img {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#tools {
+    display: flex;
+    gap: 1rem;
+    pointer-events: all;
+}
+
+#tools button {
+    padding: 1rem;
+    width: 3rem;
+    height: 3rem;
+}
+
+#tools button.tool-text {
+    width: auto;
+    min-width: 5.25rem;
+    height: 3rem;
+    padding: 0 1rem;
+    border-radius: 999px;
+    justify-content: center;
+    font-size: 0.85rem;
+    line-height: 1;
+}
+
+#title {
+    width: 12rem;
+    height: 3rem;
+
+    clip-path: url(#textPath);
+    background: oklch(0 0 0 / 0.2);
+    backdrop-filter: blur(5px);
+
+    transition:
+        width 0.5s ease,
+        height 0.5s ease,
+        background 0.5s ease;
+}
+
+#status {
+    color: var(--c-secondary);
+    font-family: monospace;
+}
+
+#stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.8rem;
+    color: var(--c-secondary);
+    margin-top: 0.5rem;
+}
+
+#stats span {
+    font-family: monospace;
+}
+
+#center-view, #save-map, #exit {
+    position: absolute;
+    display: none;
+    top: 1rem;
+    left: 50%;
+    padding-left: 1rem;
+    transform: translateX(-50%);
+    background: oklch(10% 0 0);
+    color: oklch(1 0 0 / 0.75);
+}
+
+#center-view img, #exit img {
+    opacity: 0.75;
+}
+
+#manual-toggles {
+    display: grid;
+    position: absolute;
+    grid-template-columns: repeat(2, max-content);
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    pointer-events: auto;
+}
+
+#manual-toggles span {
+    font-family: monospace;
+    color: var(--c-secondary);
+}
+
+#manual-toggles button {
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    color: black;
+}
+
+#manual-joystick {
+    display: none;
+    position: absolute;
+    bottom: 3rem;
+    right: 3rem;
+}
+
+.blur-backdrop, #modes, #tools button {
+    background: oklch(0 0 0 / 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.no-interact, header, #menu {
+    pointer-events: none;
+}
+
+.no-select, header, #menu {
+    user-select: none;
+    -webkit-user-select: none;
+}

@@ -1,0 +1,44 @@
+# shared env
+x-ros-env: &ros_env
+  ROS_DOMAIN_ID: 0
+  RMW_IMPLEMENTATION: rmw_cyclonedds_cpp
+
+# shared build config
+x-ros-build: &ros_build
+  build:
+    context: .
+    dockerfile: Dockerfile
+  image: roboclean:latest
+
+services:
+  simulation:
+    <<: *ros_build
+    container_name: sim
+    ipc: host
+    environment:
+      <<: *ros_env
+      SPAWN_X: ${SPAWN_X:-0.0}
+      SPAWN_Y: ${SPAWN_Y:-0.0}
+      SPAWN_Z: ${SPAWN_Z:-0.05}
+      SPAWN_YAW: ${SPAWN_YAW:-0.0}
+      MAP_DIR: /opt/tmp/map
+      MAP_BASENAME: ${MAP_BASENAME:-roboclean_map}
+    volumes:
+      - ./artifacts:/artifacts
+      - ./ros2/src:/opt/robot_ws/src
+      - ./frontend:/opt/frontend
+      - ${MAP_HOST_DIR:-/opt/tmp/map}:/opt/tmp/map
+    ports:
+      - "8080:8000"  # Expose frontend port
+    command: >
+      bash -c "
+      colcon build --symlink-install --packages-select roboclean
+      && source install/setup.bash
+      && ros2 launch roboclean simulation.launch.py
+      use_sim_time:=True
+      x_pose:=$$SPAWN_X
+      y_pose:=$$SPAWN_Y
+      z_pose:=$$SPAWN_Z
+      yaw:=$$SPAWN_YAW
+      map_dir:=$$MAP_DIR
+      map_name:=$$MAP_BASENAME"

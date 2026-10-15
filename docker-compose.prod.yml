@@ -1,0 +1,19 @@
+services:
+  core:
+    image: roboclean:prod
+    restart: always
+    network_mode: host # enable on linux
+    devices:
+      # Map the stable symlinks from Host to Container
+      - /dev/sensors/arduino:/dev/sensors/arduino
+      - /dev/sensors/rplidar:/dev/sensors/rplidar
+    ipc: host
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ROS_DOMAIN_ID=0
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - MAP_DIR=/opt/tmp/map
+      - MAP_BASENAME=${MAP_BASENAME:-roboclean_map}
+    volumes:
+      - ${MAP_HOST_DIR:-/opt/tmp/map}:/opt/tmp/map
+    command: ros2 launch roboclean robot.launch.py map_dir:=/opt/tmp/map map_name:=${MAP_BASENAME:-roboclean_map}
